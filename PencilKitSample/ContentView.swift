@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PencilKit
+import Photos
 
 struct ContentView: View {
     private let canvasView = PKCanvasView()
@@ -39,7 +40,7 @@ struct ContentView: View {
                     // PKCanvasViewから画像に変換する
                     let image = canvasView.drawing.image(from: canvasView.frame, scale: 1.0)
                     // フォトライブラリーに画像を保存する
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                    saveImageToCustomAlbum(image: image, albumName: "PencilKitSample")
                 } label: {
                     Text("Save")
                 }
@@ -51,6 +52,48 @@ struct ContentView: View {
                 .frame(width: 200)
                 .padding()
             
+        }
+    }
+    
+
+    func saveImageToCustomAlbum(image: UIImage, albumName: String) {
+        // 写真のアクセス許可を確認
+        PHPhotoLibrary.requestAuthorization { (status) in
+            switch status {
+            case .authorized:
+                PHPhotoLibrary.shared().performChanges({
+                    // アルバムを検索
+                    let fetchOptions = PHFetchOptions()
+                    fetchOptions.predicate = NSPredicate(format: "title = %@", albumName)
+                    let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+                    
+                    let assetCreationRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
+                    
+                    // アルバムを作成または取得して、写真を追加
+                    if let assetCollection = collection.firstObject {
+                        let albumChangeRequest = PHAssetCollectionChangeRequest(for: assetCollection)
+                        let fastEnumeration = NSArray(array: [assetCreationRequest.placeholderForCreatedAsset!] as [PHObjectPlaceholder])
+                        albumChangeRequest?.addAssets(fastEnumeration)
+                    } else {
+                        let createAlbumRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumName)
+                        createAlbumRequest.addAssets(NSArray(object: assetCreationRequest.placeholderForCreatedAsset!) as NSFastEnumeration)
+                    }
+                    
+                }, completionHandler: { (success, error) in
+                    if success {
+                        print("写真を保存しました。")
+                    } else {
+                        print("エラー: \(error?.localizedDescription ?? "Unknown error")")
+                    }
+                })
+            case .denied, .restricted:
+                print("アクセスが拒否されました。")
+            case .notDetermined:
+                // まだ決定されていない場合
+                break
+            @unknown default:
+                break
+            }
         }
     }
 }
