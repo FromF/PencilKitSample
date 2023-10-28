@@ -8,11 +8,13 @@
 import SwiftUI
 import PencilKit
 import Photos
+import PhotosUI
 
 struct ContentView: View {
     private let canvasView = PKCanvasView()
     private let pkToolPicker = PKToolPicker()
     @State private var isShowPKToolPicker = false
+    @State private var photoPickerSelectedImage: PhotosPickerItem? = nil
 
     var body: some View {
         VStack {
@@ -45,14 +47,47 @@ struct ContentView: View {
                     Text("Save")
                 }
                 .padding(.horizontal)
+                
+                PhotosPicker(selection: $photoPickerSelectedImage, matching: .images, preferredItemEncoding: .automatic, photoLibrary: .shared()) {
+                    Text("Photo")
+                }
+                .padding(.horizontal)
+
             }
             
             PencilView(canvasView: canvasView, pkToolPicker: pkToolPicker)
                 .border(Color.gray, width: 1)
                 .frame(width: 200)
                 .padding()
-            
+                
         }
+        .onChange(of: photoPickerSelectedImage) { photosPickerItem in
+            // 選択した写真があるとき
+            if let photosPickerItem {
+                // Data型で写真を取り出す
+                photosPickerItem.loadTransferable(type: Data.self) { result in
+                    switch result {
+                    case .success(let data):
+                        // 写真があるとき
+                        if let data {
+                            DispatchQueue.main.async {
+                                let image = UIImage(data: data)
+                                let imageView = UIImageView()
+                                imageView.clipsToBounds = true
+                                imageView.contentMode = .scaleAspectFill
+                                imageView.image = image
+                                imageView.frame = canvasView.frame
+                                canvasView.addSubview(imageView)
+                                canvasView.sendSubviewToBack(imageView)
+                                canvasView.isOpaque = false
+                            }
+                        }
+                    case .failure:
+                        return
+                    }
+                }
+            }
+        } // .onChange ここまで
     }
     
 
