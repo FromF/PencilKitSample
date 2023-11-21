@@ -20,13 +20,12 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            HStack {
+            HStack(spacing: 16.0) {
                 Button {
                     isShowPKToolPicker.toggle()
                 } label: {
-                    Text(isShowPKToolPicker ? "Hide" : "Show")
+                    Image(systemName: isShowPKToolPicker ? "pencil.slash" : "pencil.and.scribble")
                 }
-                .padding(.horizontal)
                 .onChange(of: isShowPKToolPicker) { isShowPKToolPicker in
                     // PKToolPickerの表示非表示を切り替える
                     pkToolPicker.setVisible(isShowPKToolPicker, forFirstResponder: canvasView)
@@ -38,9 +37,8 @@ struct ContentView: View {
                     // PKCanvasViewの中身をクリアする
                     canvasView.drawing = PKDrawing()
                 } label: {
-                    Text("Clear")
+                    Image(systemName: "trash")
                 }
-                .padding(.horizontal)
 
                 Button {
                     // PKCanvasViewから画像に変換する
@@ -48,15 +46,12 @@ struct ContentView: View {
                     // フォトライブラリーに画像を保存する
                     saveImageToCustomAlbum(image: image, albumName: "PencilKitSample")
                 } label: {
-                    Text("Save")
+                    Image(systemName: "square.and.arrow.down")
                 }
-                .padding(.horizontal)
                 
                 PhotosPicker(selection: $photoPickerSelectedImage, matching: .images, preferredItemEncoding: .automatic, photoLibrary: .shared()) {
-                    Text("Photo")
+                    Image(systemName: "photo")
                 }
-                .padding(.horizontal)
-
             }
             
             PencilView(canvasView: canvasView, pkToolPicker: pkToolPicker)
@@ -88,6 +83,8 @@ struct ContentView: View {
                     case .failure:
                         return
                     }
+                    // 選択された画像情報を消す
+                    photoPickerSelectedImage = nil
                 }
             }
         } // .onChange ここまで
