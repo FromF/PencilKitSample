@@ -33,6 +33,8 @@ struct ContentView: View {
                 }
                 
                 Button {
+                    // 背景画像を消す
+                    imageView.image = nil
                     // PKCanvasViewの中身をクリアする
                     canvasView.drawing = PKDrawing()
                 } label: {
