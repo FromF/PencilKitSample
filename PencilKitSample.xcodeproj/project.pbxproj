@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D0E69C42B0CC5B100024555 /* UIViewExtesion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0E69C32B0CC5B100024555 /* UIViewExtesion.swift */; };
 		9D658AED29E6DB950041D30C /* PencilKitSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D658AEC29E6DB950041D30C /* PencilKitSampleApp.swift */; };
 		9D658AEF29E6DB950041D30C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D658AEE29E6DB950041D30C /* ContentView.swift */; };
 		9D658AF129E6DB960041D30C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D658AF029E6DB960041D30C /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9D0E69C32B0CC5B100024555 /* UIViewExtesion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtesion.swift; sourceTree = "<group>"; };
 		9D658AE929E6DB950041D30C /* PencilKitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PencilKitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D658AEC29E6DB950041D30C /* PencilKitSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PencilKitSampleApp.swift; sourceTree = "<group>"; };
 		9D658AEE29E6DB950041D30C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 		9D658AEB29E6DB950041D30C /* PencilKitSample */ = {
 			isa = PBXGroup;
 			children = (
+				9D0E69C32B0CC5B100024555 /* UIViewExtesion.swift */,
 				9D658AEC29E6DB950041D30C /* PencilKitSampleApp.swift */,
 				9D658AEE29E6DB950041D30C /* ContentView.swift */,
 				9D658AFA29E6DBB00041D30C /* PencilView.swift */,
@@ -143,6 +146,7 @@
 				9D658AEF29E6DB950041D30C /* ContentView.swift in Sources */,
 				9D658AFB29E6DBB00041D30C /* PencilView.swift in Sources */,
 				9D658AED29E6DB950041D30C /* PencilKitSampleApp.swift in Sources */,
+				9D0E69C42B0CC5B100024555 /* UIViewExtesion.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

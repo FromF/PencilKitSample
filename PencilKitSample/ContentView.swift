@@ -13,6 +13,8 @@ import PhotosUI
 struct ContentView: View {
     private let canvasView = PKCanvasView()
     private let pkToolPicker = PKToolPicker()
+    private let imageView = UIImageView()
+    
     @State private var isShowPKToolPicker = false
     @State private var photoPickerSelectedImage: PhotosPickerItem? = nil
 
@@ -40,7 +42,7 @@ struct ContentView: View {
 
                 Button {
                     // PKCanvasViewから画像に変換する
-                    let image = canvasView.drawing.image(from: canvasView.frame, scale: 1.0)
+                    let image = canvasView.toUIImage()
                     // フォトライブラリーに画像を保存する
                     saveImageToCustomAlbum(image: image, albumName: "PencilKitSample")
                 } label: {
@@ -72,7 +74,6 @@ struct ContentView: View {
                         if let data {
                             DispatchQueue.main.async {
                                 let image = UIImage(data: data)
-                                let imageView = UIImageView()
                                 imageView.clipsToBounds = true
                                 imageView.contentMode = .scaleAspectFill
                                 imageView.image = image
